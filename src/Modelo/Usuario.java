@@ -1,15 +1,28 @@
 package Modelo;
 
+
 public class Usuario {
+    private String username;
     private String nombre;
     private String apellido;
-    private String username;
     private String password;
 
-    public Usuario(String nombre, String apellido, String username, String password) {
+    public Usuario(String username, String nombre, String apellido, String password) {
+        this.username = username;
         this.nombre = nombre;
         this.apellido = apellido;
-        this.username = username;
         this.password = password;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void gestionUsuario() {
+        
     }
 }
