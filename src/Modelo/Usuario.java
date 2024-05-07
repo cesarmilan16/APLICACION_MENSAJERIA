@@ -10,13 +10,17 @@ public class Usuario extends Persona {
     // Atributo estático para guardar todos los usuarios
     private static ArrayList<Usuario> listaUsuariosMensajeria;
     private Scanner scanner;
+    private ArrayList<Conversacion> conversaciones;
+    private Usuario usuario;
 
     public Usuario(String username, String nombre, String apellido, String password) {
         super(nombre, apellido);
         this.username = username;
         this.password = password;
         amigos = new ArrayList<>();
+        conversaciones = new ArrayList<>();
         scanner = new Scanner(System.in);
+        this.usuario = this;
     }
 
     public String getUsername() {
@@ -50,6 +54,16 @@ public class Usuario extends Persona {
                 }
         }
         return usuarioEncontrado;
+    }
+
+    public Conversacion buscarConservacion(Amigo amigoEncontrado) {
+        Conversacion conversacionEncontrado = null;
+        for (Conversacion conversacion : conversaciones) {
+                if (conversacion.getUsuario().equals(this) && conversacion.getAmigo().equals(amigoEncontrado)) {
+                    conversacionEncontrado = conversacion;
+                }
+        }
+        return conversacionEncontrado;
     }
 
     public void gestionUsuario() {
@@ -163,10 +177,57 @@ public class Usuario extends Persona {
     }
 
     public void enviarMensaje() {
+        System.out.println("*****************************");
+        System.out.println("****** Enviar mensaje *******");
+        System.out.println("*****************************");
+        System.out.println("Introduce username de tu amigo a quien enviar mensaje: ");
+        String username = scanner.nextLine();
 
+        Amigo amigoEncontrado = buscarAmigo(username);
+        Conversacion conversacionEncontrado = buscarConservacion(amigoEncontrado);
+
+
+        if (amigoEncontrado != null && conversacionEncontrado == null) {
+            System.out.println("Introduce mensaje: ");
+            String mensaje = scanner.nextLine();
+            Conversacion conversacion = new Conversacion(this, amigoEncontrado, mensaje);
+            conversacion.agregarMensaje(mensaje);
+            conversaciones.add(conversacion);
+        }
+        else if (amigoEncontrado != null && conversacionEncontrado != null) {
+            System.out.println("Introduce mensaje: ");
+            String mensaje = scanner.nextLine();
+            conversacionEncontrado.agregarMensaje(mensaje);
+        }
+        else {
+            System.out.println("Amigo no encontrado");
+        }
     }
 
     public void leerMensaje() {
+        System.out.println("*****************************");
+        System.out.println("******* Leer mensajes *******");
+        System.out.println("*****************************");
+        System.out.println("Introduce username de tu amigo a quien leer sus mensajes: ");
+        String username = scanner.nextLine();
 
+        Amigo amigoEncontrado = buscarAmigo(username);
+
+        if (amigoEncontrado != null) {
+            if (conversaciones != null){
+                System.out.println("Mensajes de " + amigoEncontrado.getUsername() + ": ");
+                for (Conversacion conversacion : conversaciones) {
+                    if (conversacion.getAmigo().getUsername().equals(username) && conversacion.getUsuario().getUsername().equals(this.username)) {
+                        conversacion.mostrarMensaje();
+                    }
+                }
+            }
+            else {
+                System.out.println("Conversación no encontrada");
+            }
+        }
+        else {
+            System.out.println("Amigo no encontrado");
+        }
     }
 }
