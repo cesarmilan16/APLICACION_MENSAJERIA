@@ -6,15 +6,13 @@ import java.util.Scanner;
 public class Mensajeria {
     
     private ArrayList<Usuario> usuarios;
-    private ArrayList<Usuario> amigos;
     private Scanner scanner = new Scanner(System.in);
 
     public Mensajeria() {
         usuarios = new ArrayList<>();
-        amigos = new ArrayList<>();
     }
 
-    private Usuario buscarUsuario(String username) {
+    public Usuario buscarUsuario(String username) {
         Usuario usuarioEncontrado = null;
         for (Usuario usuario : usuarios) {
             if (usuario.getUsername().equals(username)) {
@@ -41,6 +39,8 @@ public class Mensajeria {
             System.out.println("Contraseña usuario: ");
             String password = scanner.nextLine();
             Usuario usuario = new Usuario(username, nombre, apellido, password);
+            // Para devolvernos la lista de usuarios en la clase Usuario
+            Usuario.setListaUsuariosMensajeria(usuarios);
             usuarios.add(usuario);
             System.out.println("Usuario agregado con exito!");
         }
