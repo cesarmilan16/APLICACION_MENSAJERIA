@@ -1,7 +1,6 @@
 package Modelo;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import Herramientas.Utilidades;
 
@@ -23,8 +22,16 @@ public class Usuario {
         this.password = password;
     }
 
-    private String getUsername() {
+    public String getUsername() {
         return username;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     private void imprimirUsuario() {
@@ -174,31 +181,8 @@ public class Usuario {
 
 
     public void leerMensaje() {
-        System.out.println("*****************************");
-        System.out.println("******* Leer mensajes *******");
-        System.out.println("*****************************");
-        System.out.println("Introduce username de tu amigo a quien leer sus mensajes: ");
-        String username = scanner.nextLine();
-
-        Amigo amigoEncontrado = buscarAmigo(username);
-
-        if (amigoEncontrado != null) {
-            Conversacion conversacionUsuario = Conversacion.buscarConversacion(this, amigoEncontrado);
-            if (conversacionUsuario != null){
-                System.out.println("Mensajes de " + amigoEncontrado.getUsername() + ": ");
-                Conversacion.mostrarMensajes(this, amigoEncontrado);
-            }
-            else {
-                System.out.println("No hay conversaciones disponibles con " + amigoEncontrado.getUsername());
-            }
-        }
-        else {
-            System.out.println("Amigo no encontrado");
+        for (Mensaje mensaje : mensajes) {
+            mensaje.escribirMensaje();
         }
     }
 }
-
-/*
-El amigo debe ser clase usuario
-en vez de conversacion tiene que ser mensaje con su texto y su usuario
- */
