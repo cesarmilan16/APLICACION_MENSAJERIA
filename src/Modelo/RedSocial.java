@@ -1,14 +1,14 @@
 package Modelo;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
-public class Mensajeria {
+import Herramientas.Utilidades;
+
+public class RedSocial {
     
     private ArrayList<Usuario> usuarios;
-    private Scanner scanner = new Scanner(System.in);
 
-    public Mensajeria() {
+    public RedSocial() {
         usuarios = new ArrayList<>();
     }
 
@@ -27,21 +27,18 @@ public class Mensajeria {
         System.out.println("****** Alta Usuario *******");
         System.out.println("***************************");
         System.out.println("Introduzca username: ");
-        String username = scanner.nextLine();
+        String username = Utilidades.leerString("username");
 
         Usuario usuarioEncontrado = buscarUsuario(username);
 
         if (usuarioEncontrado == null) {
             System.out.println("Nombre usuario: ");
-            String nombre = scanner.nextLine();
+            String nombre = Utilidades.leerString("nombre");
             System.out.println("Apellido usuario: ");
-            String apellido = scanner.nextLine();
+            String apellido = Utilidades.leerString("apellido");
             System.out.println("Contraseña usuario: ");
-            String password = scanner.nextLine();
-            Usuario usuario = new Usuario(username, nombre, apellido, password);
-            // Para devolvernos la lista de usuarios en la clase Usuario
-            Usuario.setListaUsuariosMensajeria(usuarios);
-            usuarios.add(usuario);
+            String password = Utilidades.leerString("contraseña");
+            usuarios.add(new Usuario(this, username, nombre, apellido, password));
             System.out.println("Usuario agregado con exito!");
         }
         else {
@@ -54,7 +51,7 @@ public class Mensajeria {
         System.out.println("****** Baja Usuario *******");
         System.out.println("***************************");
         System.out.println("Introduzca username: ");
-        String username = scanner.nextLine();
+        String username = Utilidades.leerString("username");
 
         Usuario usuarioEncontrado = buscarUsuario(username);
 
@@ -67,18 +64,18 @@ public class Mensajeria {
         }
     }
 
-    public void loginLogout() {
+    public void login() {
         System.out.println("***************************");
         System.out.println("****** Login usuario ******");
         System.out.println("***************************");
         System.out.println("Introduzca username: ");
-        String username = scanner.nextLine();
+        String username = Utilidades.leerString("username");
 
         Usuario usuarioEncontrado = buscarUsuario(username);
 
         if (usuarioEncontrado != null) {
             System.out.println("Introduzca contraseña: ");
-            String password = scanner.nextLine();
+            String password = Utilidades.leerString("contraseña");
             if (usuarioEncontrado.getPassword().equals(password)) {
                 System.out.println("Accedido al usuario " + username + " correctamente!");;
                 usuarioEncontrado.gestionUsuario();

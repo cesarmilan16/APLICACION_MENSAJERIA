@@ -3,54 +3,46 @@ package Modelo;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Usuario extends Persona {
+import Herramientas.Utilidades;
+
+public class Usuario {
+    private RedSocial red;
     private String username;
+    private String nombre;
+    private String apellido;
     private String password;
-    private ArrayList<Amigo> amigos;
-    // Atributo estático para guardar todos los usuarios
-    private static ArrayList<Usuario> listaUsuariosMensajeria;
-    private Scanner scanner;
+    private ArrayList<Usuario> amigos = new ArrayList<>();
+    private ArrayList<Mensaje> mensajes = new ArrayList<>();
 
 
-    public Usuario(String username, String nombre, String apellido, String password) {
-        super(nombre, apellido);
+    public Usuario(RedSocial red, String username, String nombre, String apellido, String password) {
+        this.red = red;
         this.username = username;
+        this.nombre = nombre;
+        this.apellido = apellido;
         this.password = password;
-        amigos = new ArrayList<>();
-        scanner = new Scanner(System.in);
     }
 
-    public String getUsername() {
+    private String getUsername() {
         return username;
     }
 
-    public String getPassword() {
-        return password;
+    private void imprimirUsuario() {
+        System.out.println("Usuario:");
+        System.out.println("Username: " + username);
+        System.out.println("Nombre: " + nombre);
+        System.out.println("Apellido: " + apellido);
+        System.out.println("------------------------");
     }
 
-    // Método para guardar todos los usuarios creados
-    public static void setListaUsuariosMensajeria(ArrayList<Usuario> listaUsuarios) {
-        listaUsuariosMensajeria = listaUsuarios;
-    }
-
-    private Amigo buscarAmigo(String username) {
-        Amigo amigoEncontrado = null;
-        for (Amigo amigo : amigos) {
+    private Usuario buscarAmigo(String username) {
+        Usuario amigoEncontrado = null;
+        for (Usuario amigo : amigos) {
                 if (amigo.getUsername().equals(username)) {
                     amigoEncontrado = amigo;
                 }
         }
         return amigoEncontrado;
-    }
-
-    private Usuario buscarUsuario(String username) {
-        Usuario usuarioEncontrado = null;
-        for (Usuario usuario : listaUsuariosMensajeria) {
-                if (usuario.getUsername().equals(username)) {
-                    usuarioEncontrado = usuario;
-                }
-        }
-        return usuarioEncontrado;
     }
 
     public void gestionUsuario() {
@@ -72,7 +64,7 @@ public class Usuario extends Persona {
         System.out.println("5.- Leer mensajes");
         System.out.println("9.- Logout");
         
-        String opcion = scanner.nextLine();
+        String opcion = Utilidades.leerString("opción");
 
         switch (opcion) {
             case "1":
@@ -104,20 +96,17 @@ public class Usuario extends Persona {
         System.out.println("******** Alta amigo *********");
         System.out.println("*****************************");
         System.out.println("Introduce username: ");
-        String username = scanner.nextLine();
+        String username = Utilidades.leerString("username");
 
-        Usuario usuarioEncontrado = buscarUsuario(username);
-        Amigo amigoEncontrado = buscarAmigo(username);
+        Usuario usuarioEncontrado = red.buscarUsuario(username);
+        Usuario amigoEncontrado = buscarAmigo(username);
 
         if (usuarioEncontrado != null) {
             if (usuarioEncontrado.getUsername().equals(this.username)) {
                 System.out.println("No puedes agregarte a ti mismo.");
             }
             else if (amigoEncontrado == null) {
-                String nombre = usuarioEncontrado.getNombre();
-                String apellido = usuarioEncontrado.getApellido();
-                Amigo amigo = new Amigo(username, nombre, apellido);
-                amigos.add(amigo);
+                amigos.add(usuarioEncontrado);
                 System.out.println("Amigo agregado con exito");
             }
             else {
@@ -134,10 +123,10 @@ public class Usuario extends Persona {
         System.out.println("******** Baja amigo *********");
         System.out.println("*****************************");
         System.out.println("Introduce username: ");
-        String username = scanner.nextLine();
+        String username = Utilidades.leerString("username");
 
 
-        Amigo amigoEncontrado = buscarAmigo(username);
+        Usuario amigoEncontrado = buscarAmigo(username);
 
         if (amigoEncontrado != null) {
             amigos.remove(amigoEncontrado);
@@ -154,8 +143,8 @@ public class Usuario extends Persona {
         System.out.println("*****************************");
         if (!amigos.isEmpty()) {
             System.out.println("Amigos de " + username + ": ");
-            for (Amigo amigo : amigos) {
-                amigo.imprimirAmigo();
+            for (Usuario amigo : amigos) {
+                amigo.imprimirUsuario();
             }  
         }
         else {
@@ -168,16 +157,14 @@ public class Usuario extends Persona {
         System.out.println("****** Enviar mensaje *******");
         System.out.println("*****************************");
         System.out.println("Introduce username de tu amigo a quien enviar mensaje: ");
-        String username = scanner.nextLine();
+        String username = Utilidades.leerString("username");
 
-        Amigo amigoEncontrado = buscarAmigo(username);
+        Usuario amigoEncontrado = buscarAmigo(username);
 
         if (amigoEncontrado != null) {
             System.out.println("Introduce mensaje: ");
-            String mensaje = scanner.nextLine();
-            Conversacion.agregarConversacion(this, amigoEncontrado);
-            Conversacion conversacionUsuario = Conversacion.buscarConversacion(this, amigoEncontrado);
-            conversacionUsuario.agregarMensaje(mensaje);
+            String mensaje = Utilidades.leerString("mensaje");
+            amigoEncontrado.mensajes.add(new Mensaje(mensaje, this));
         }
         else {
             System.out.println("Amigo no encontrado");

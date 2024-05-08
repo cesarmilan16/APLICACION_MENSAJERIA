@@ -1,10 +1,9 @@
-import java.util.Scanner;
-
-import Modelo.Mensajeria;
+import Herramientas.Utilidades;
+import Modelo.RedSocial;
 
 public class App {
 
-    public static Mensajeria mensajeria = new Mensajeria();
+    public static RedSocial mensajeria = new RedSocial();
     public static void main(String[] args) throws Exception {
         boolean salir = false;
         while (!salir) {
@@ -19,11 +18,10 @@ public class App {
         System.out.println("*****************************");
         System.out.println("1.- Alta usuario");
         System.out.println("2.- Baja usuario");
-        System.out.println("3.- Login/Logout del usuario");
+        System.out.println("3.- Login del usuario");
         System.out.println("9.- Salir");
         
-        Scanner scanner = new Scanner(System.in);
-        String opcion = scanner.nextLine();
+        String opcion = Utilidades.leerString("opción");
 
         switch (opcion) {
             case "1":
@@ -33,11 +31,10 @@ public class App {
                 mensajeria.bajaUsuario();
                 break;
             case "3":
-                mensajeria.loginLogout();
+                mensajeria.login();
                 break;
             case "9":
                 salir = true;
-                scanner.close();
                 break;
             default:
                 break;
