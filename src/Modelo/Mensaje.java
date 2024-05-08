@@ -11,7 +11,8 @@ public class Mensaje {
     private Date fechaMensaje;
 
 
-    public Mensaje(String mensaje, Usuario de) {
+    public Mensaje(String texto, Usuario de) {
+        this.texto = texto;
         this.de = de;
         Calendar calendar = Calendar.getInstance();
         fechaMensaje = calendar.getTime();

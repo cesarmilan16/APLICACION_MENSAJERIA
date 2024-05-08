@@ -35,7 +35,7 @@ public class Usuario {
     }
 
     private void imprimirUsuario() {
-        System.out.println("Usuario:");
+        System.out.println();
         System.out.println("Username: " + username);
         System.out.println("Nombre: " + nombre);
         System.out.println("Apellido: " + apellido);
@@ -129,7 +129,6 @@ public class Usuario {
         System.out.println("*****************************");
         System.out.println("******** Baja amigo *********");
         System.out.println("*****************************");
-        System.out.println("Introduce username: ");
         String username = Utilidades.leerString("username");
 
 
@@ -163,15 +162,13 @@ public class Usuario {
         System.out.println("*****************************");
         System.out.println("****** Enviar mensaje *******");
         System.out.println("*****************************");
-        System.out.println("Introduce username de tu amigo a quien enviar mensaje: ");
-        String username = Utilidades.leerString("username");
+        String username = Utilidades.leerString("username de tu amigo");
 
         Usuario amigoEncontrado = buscarAmigo(username);
 
         if (amigoEncontrado != null) {
-            System.out.println("Introduce mensaje: ");
-            String mensaje = Utilidades.leerString("mensaje");
-            amigoEncontrado.mensajes.add(new Mensaje(mensaje, this));
+            String texto = Utilidades.leerString("mensaje");
+            amigoEncontrado.mensajes.add(new Mensaje(texto, this));
         }
         else {
             System.out.println("Amigo no encontrado");
