@@ -9,6 +9,7 @@ public class Mensaje {
     private String texto;
     private Usuario de;
     private Date fechaMensaje;
+    private boolean leido;
 
 
     public Mensaje(String texto, Usuario de) {
@@ -16,6 +17,20 @@ public class Mensaje {
         this.de = de;
         Calendar calendar = Calendar.getInstance();
         fechaMensaje = calendar.getTime();
+        this.leido = false;
+    }
+
+        
+    public boolean isLeido() {
+        return leido;
+    }
+
+    public Usuario getDe() {
+        return de;
+    }
+
+    public void setLeido(boolean leido) {
+        this.leido = leido;
     }
 
     public void escribirMensaje() {
