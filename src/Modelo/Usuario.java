@@ -185,6 +185,11 @@ public class Usuario {
 
 
     public void leerMensaje() {
+        if (mensajes.isEmpty()) {
+            System.out.println("No tienes mensajes.");
+            return;
+        }
+        
         for (Mensaje mensaje : mensajes) {
             mensaje.escribirMensaje();
             mensaje.setLeido(true);
@@ -239,10 +244,21 @@ public class Usuario {
 
     // Método para listar los mensajes no leidos
     private void listarMensajesNoLeidos() {
+        boolean hayMensajesNoLeidos = false;
+        if (mensajes.isEmpty()) {
+            System.out.println("No tienes mensajes.");
+            return;
+        }
+
         for (Mensaje mensaje : mensajes) {
             // Solo mostrará los mensajes no leidos
             if (!mensaje.isLeido()) {
                 mensaje.escribirMensaje();
+                hayMensajesNoLeidos = true;
+            }
+
+            if (!hayMensajesNoLeidos) {
+                System.out.println("No tienes mensajes no leídos.");
             }
         }
     }
