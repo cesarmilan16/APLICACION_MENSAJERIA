@@ -10,7 +10,7 @@ public class Mensaje {
     private Usuario de;
     private Date fechaMensaje;
     private boolean leido;
-
+    private Mensaje mensajeRespuesta;
 
     public Mensaje(String texto, Usuario de) {
         this.texto = texto;
@@ -18,6 +18,7 @@ public class Mensaje {
         Calendar calendar = Calendar.getInstance();
         fechaMensaje = calendar.getTime();
         this.leido = false;
+        this.mensajeRespuesta = null;
     }
 
         
@@ -33,12 +34,34 @@ public class Mensaje {
         this.leido = leido;
     }
 
+    public boolean isRespueta() {
+        return mensajeRespuesta != null;
+    }
+
+    public Mensaje getRespuesta() {
+        return mensajeRespuesta;
+    }
+
+    public void setRespuesta (Mensaje mensajeRespuesta) {
+        this.mensajeRespuesta = mensajeRespuesta;
+    }
+
     public void escribirMensaje() {
-        System.out.println("Mensaje de:" + de.getUsername() + " - " + de.getNombre());
+        
 
         String patron = "MM/dd/yyyy HH:mm:ss";
         DateFormat df = new SimpleDateFormat(patron);
+        if (isRespueta()) {
+            System.out.println("-----------------------------------");
+            System.out.println("Mensaje respondido:" + mensajeRespuesta.de.getUsername() + " - " + mensajeRespuesta.de.getNombre());
+            System.out.println("El día: " + df.format(mensajeRespuesta.fechaMensaje));
+            System.out.println("Mensaje: " + mensajeRespuesta.texto);
+            System.out.println("-----------------------------------");
+        }
+        System.out.println("Mensaje de:" + de.getUsername() + " - " + de.getNombre());
         System.out.println("El día: " + df.format(fechaMensaje));
         System.out.println("Mensaje: " + texto);
+
+        
     }
 }

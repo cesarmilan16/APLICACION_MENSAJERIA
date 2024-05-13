@@ -196,6 +196,7 @@ public class Usuario {
         }
     }
 
+    // Método para responder los mensajes
     private void responderMensaje() {
         // Si no tiene mensajes salta el siguiente texto
         if (mensajes.isEmpty()) {
@@ -217,22 +218,24 @@ public class Usuario {
         }
         
         // Elegimos el número del mensaje que queremos responder
-        int opcion = Utilidades.leerEntero("el número de mensaje que quiere responder");
+        int opcion = Utilidades.leerEntero("el número de mensaje que quieres responder");
         Mensaje mensajeSeleccionado = null;
         int contador = 1;
-        while (mensajeSeleccionado == null && contador < mensajes.size()) {
+        while (mensajeSeleccionado == null && contador <= mensajes.size()) {
             if (contador == opcion) {
-                mensajeSeleccionado = mensajes.get(contador);
+                mensajeSeleccionado = mensajes.get(opcion - 1);
             }
             contador++;
         }
 
-        // Escribimos el mensaje de respuesta
-        String respuesta = Utilidades.leerString("su respuesta");
 
         // Si existe el mensaje agregaremos el nuevo mensaje
         if (mensajeSeleccionado != null) {
-            mensajeSeleccionado.getDe().mensajes.add(new Mensaje(respuesta, mensajeSeleccionado.getDe()));
+            // Escribimos el mensaje de respuesta
+            String respuesta = Utilidades.leerString("su respuesta");
+            Mensaje mensajeRespuesta = new Mensaje(respuesta, this);
+            mensajeSeleccionado.getDe().mensajes.add(mensajeRespuesta);
+            mensajeRespuesta.setRespuesta(mensajeSeleccionado);
             System.out.println("Mensaje respondido con exito!");
         }
         // Si no mostrará lo siguiente
