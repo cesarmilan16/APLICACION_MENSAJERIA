@@ -257,9 +257,9 @@ public class Usuario {
                 hayMensajesNoLeidos = true;
             } 
         }
+        // Si no hay ninguno no leido saltará lo siguiente
         if (!hayMensajesNoLeidos) {
             System.out.println("No tienes mensajes no leídos.");
         }
     }
-
 }
