@@ -255,11 +255,10 @@ public class Usuario {
             if (!mensaje.isLeido()) {
                 mensaje.escribirMensaje();
                 hayMensajesNoLeidos = true;
-            }
-
-            if (!hayMensajesNoLeidos) {
-                System.out.println("No tienes mensajes no leídos.");
-            }
+            } 
+        }
+        if (!hayMensajesNoLeidos) {
+            System.out.println("No tienes mensajes no leídos.");
         }
     }
 
